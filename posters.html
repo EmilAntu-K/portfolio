@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster Design Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
+        
+        body {
+            color: #fff;
+            background-color: #121212;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            background-color: rgba(18, 18, 18, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 1.5rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        
+        nav ul li::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #fff;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li:hover::after {
+            width: 100%;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 10rem 5% 4rem;
+        }
+        
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            bottom: -15px;
+            left: 25%;
+        }
+        
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .tab-button {
+            padding: 0.8rem 2rem;
+            background: #2a2a2a;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button:hover, .tab-button.active {
+            background: #fff;
+            color: #121212;
+        }
+        
+        /* Gallery Grid */
+        .gallery-section {
+            margin-bottom: 5rem;
+        }
+        
+        .section-heading {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1/1.4;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .item-overlay {
+            opacity: 1;
+        }
+        
+        .item-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .item-category {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Lightbox Overlay */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .lightbox-content {
+            display: flex;
+            max-width: 90%;
+            max-height: 90%;
+            width: 1200px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .lightbox-image {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .lightbox-image img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        
+        .lightbox-details {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            border-left: 1px solid #333;
+        }
+        
+        .lightbox-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .lightbox-category {
+            display: inline-block;
+            background: #333;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .lightbox-description {
+            margin-bottom: 2rem;
+            color: #ccc;
+            line-height: 1.7;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        
+        .lightbox-close:hover {
+            color: #aaa;
+        }
+        
+        .lightbox-nav {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0 2rem;
+        }
+        
+        .lightbox-prev, .lightbox-next {
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox-prev:hover, .lightbox-next:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            background: #0a0a0a;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .lightbox-content {
+                flex-direction: column;
+                max-height: 90%;
+                width: 90%;
+            }
+            
+            .lightbox-image {
+                flex: none;
+                height: 60%;
+                padding: 1rem;
+            }
+            
+            .lightbox-details {
+                flex: none;
+                border-left: none;
+                border-top: 1px solid #333;
+                max-height: 40%;
+            }
+            
+            .lightbox-image img {
+                max-height: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                padding: 8rem 5% 3rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .section-heading {
+                font-size: 1.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lightbox-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">MUSEFULL</div>
+        <ul>
+            <li><a href="Portfolio.html#home">Home</a></li>
+            <li><a href="Portfolio.html#works">Works</a></li>
+            <li><a href="Portfolio.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Poster Design Gallery</h1>
+        
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="tab-button active" data-category="all">All</button>
+            <button class="tab-button" data-category="Srishti">Srishti</button>
+            <button class="tab-button" data-category="events">Events</button>
+            <button class="tab-button" data-category="movies">Movies</button>
+            <button class="tab-button" data-category="branding">Branding</button>
+            <button class="tab-button" data-category="others">Others</button>
+        </div>
+        
+        <!-- Srishti Posters -->
+        <div class="gallery-section" data-category="Srishti">
+            <h2 class="section-heading">Srishti Posters</h2>
+            <div class="gallery-grid">
+                <!-- Poster 1 -->
+                <div class="gallery-item" data-title="Srishti 2.5" data-category="Srishti" 
+                     data-description="This vibrant poster promotes 'SRISHTI II.V', an event organized by the Department of Computer Science at St. Thomas College (Autonomous), Thrissur. The event is scheduled for January 30 and 31. The central artwork is a striking fusion of traditional and modern elements—featuring a Kathakali performer (a classical Indian dance form) wearing a virtual reality (VR) headset, symbolizing the blend of culture and cutting-edge technology. The performer is adorned with elaborate makeup, vivid colors, and ornate costume pieces typical of Kathakali, with a dynamic, expressive pose that captures excitement and immersion. The bold title 'SRISHTI' dominates the top portion of the poster, setting a powerful tone for a celebration of creativity and innovation.">
+                    <img src="e.jpg" alt="Srishti">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Srishti</h3>
+                        <span class="item-category">Srishti</span>
+                    </div>
+                </div>
+                
+                <!-- Poster 2 -->
+                <div class="gallery-item" data-title="Srishti 2.5" data-category="Srishti" 
+                     data-description="This powerful and artistic poster announces 'SRISHTI II.V', hosted by the Department of Computer Science, St. Thomas College (Autonomous), Thrissur, on January 30 and 31. The design showcases a majestic Kathakali performer—a symbol of Kerala's classical art—standing boldly amidst a dramatic backdrop of swirling red smoke. The performer, adorned in elaborate traditional attire with vivid green face paint and an ornate headdress, evokes a sense of cultural grandeur. The typography is bold and modern, complementing the traditional visual elements with a contemporary edge, reflecting the fusion of heritage and innovation that the event likely celebrates.">
+                    <img src="Mainn 22222.jpg" alt="Srishti 2.5">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Srishti 2.5</h3>
+                        <span class="item-category">Srishti</span>
+                    </div>
+                </div>
+                
+                <!-- Poster 3 -->
+                <div class="gallery-item" data-title="SRISHTI – Countdown Begins" data-category="Srishti" 
+                     data-description="This elegantly composed poster announces the countdown to SRISHTI II.V, an event by the Department of Computer Science, St. Thomas College (Autonomous), Thrissur. Set against a calm and surreal wheat field, a traditional Kathakali performer—richly dressed in iconic makeup and costume—stands centered in serene isolation, evoking anticipation and cultural pride. The soft, earthy tones contrast with the bold figure, while the towering faded text 'SRISHTI' in the background emphasizes the event's prominence. The script-style text '6 Days to go' adds a sense of excitement as the festival draws near.">
+                    <img src="Sristhi Comming soon.jpg" alt="SRISHTI – Countdown Begins">
+                    <div class="item-overlay">
+                        <h3 class="item-title">SRISHTI – Countdown Begins</h3>
+                        <span class="item-category">Srishti</span>
+                    </div>
+                </div>
+
+                 <!-- Poster 4 -->
+                 <div class="gallery-item" 
+                data-title="Face Artistry" 
+                data-category="Srishti" 
+                data-description="An imaginative poster for the 'Face Artistry' event under SRISHTI 2.5, organized by the Department of Computer Science at St. Thomas College (Autonomous), Thrissur. The poster blends surreal floral elements with a haunting human portrait, reflecting the event’s horror theme. Designed to celebrate creativity, innovation, and design under time-bound pressure, this artwork captures the eerie beauty of expression through face painting.">
+                <img src="Face  Artistry.png" alt="Face Artistry Poster">
+                <div class="item-overlay">
+                    <h3 class="item-title">Face Artistry</h3>
+                    <span class="item-category">Srishti</span>
+                </div>
+            </div>
+
+             <!-- Poster 5 -->
+             <div class="gallery-item" 
+             data-title="Memo Quest" 
+             data-category="Srishti" 
+             data-description="Poster for 'Memo Quest'—an individual memory challenge held under SRISHTI 2.5 by the Department of Computer Science, St. Thomas College (Autonomous), Thrissur. The visual features a silhouetted figure with a surreal cube head, symbolizing cognitive complexity and memory power. The event is scheduled for February 2, 2025, at Kavi Prathibha Hall, with a grand prize of ₹3000 for the winner and ₹1500 for the runner-up. Designed to spark intrigue and competition in a mysterious atmosphere.">
+            <img src="Mind.jpg" alt="Memo Quest Poster">
+            <div class="item-overlay">
+                <h3 class="item-title">Memo Quest</h3>
+                <span class="item-category">Srishti</span>
+            </div>
+        </div>
+<!-- Poster 6 -->
+<div class="gallery-item" 
+     data-title="Hackathon" 
+     data-category="Srishti" 
+     data-description="Vibrant and surreal poster for the 'Hackathon' event under SRISHTI 2.5, organized by the Department of Computer Science, St. Thomas College (Autonomous), Thrissur. Featuring a futuristic figure with a CRT television as a head, it symbolizes creative overload, tech immersion, and innovation. The bold magenta background and neon lighting convey a cyberpunk aesthetic perfect for a coding marathon.">
+<img src="HackaThonn.png" alt="Hackathon Poster">
+<div class="item-overlay">
+   <h3 class="item-title">Hackathon</h3>
+   <span class="item-category">Srishti</span>
+</div>
+</div>
+<!-- Poster 7 -->
+<div class="gallery-item" 
+     data-title="Puzzle Pirates" 
+     data-category="Srishti" 
+     data-description="Treasure hunt event poster with a mysterious temple setting, golden lighting, and a lone figure standing at the entrance. Designed for the Srishti 2.5 fest by the Department of Computer Science, St. Thomas College (Autonomous), Thrissur. Features bold adventure-themed typography and immersive atmosphere.">
+
+<img src="Treasure Hunt.jpg" alt="Puzzle Pirates Poster">
+<div class="item-overlay">
+   <h3 class="item-title">Puzzle Pirates</h3>
+   <span class="item-category">Srishti</span>
+</div>
+</div>
+<!-- Poster 8 -->
+<div class="gallery-item" 
+     data-title="Welcome Febin – The Voice That Inspires" 
+     data-category="Srishti" 
+     data-description="Join us in welcoming the talented and soulful singer, Febin, whose voice transcends boundaries and touches hearts. Get ready for an unforgettable experience as Febin brings his unique blend of music, passion, and energy to the stage. Let the rhythm of his songs fill the air and captivate your spirit.">
+<img src="New Project 3 [C5556F6].png" alt="Welcome Febin – The Voice That Inspires">
+<div class="item-overlay">
+   <h3 class="item-title">Welcome Febin</h3>
+   <span class="item-category">Srishti</span>
+</div>
+</div>
+
+<!-- Poster 5 -->
+<div class="gallery-item" 
+     data-title="RC Racing" 
+     data-category="Srishti" 
+     data-description="Poster showcasing an intense RC car racing event on a rugged muddy track. Created for Srishti 2.5 by the Department of Computer Science, St. Thomas College (Autonomous), Thrissur. Features dramatic lighting, dynamic motion, and bold grunge-style typography.">
+
+<img src="RC.jpg" alt="RC Racing Poster">
+<div class="item-overlay">
+   <h3 class="item-title">RC Racing</h3>
+   <span class="item-category">Srishti</span>
+</div>
+</div>
+
+<!-- Poster 5 -->
+<div class="gallery-item" 
+     data-title="Welcome Back Febin – The Melody Returns" 
+     data-category="Srishti" 
+     data-description="The wait is over! Febin returns to take us on another musical journey filled with passion, energy, and unforgettable melodies. Get ready for a night of enchanting tunes and electrifying performances as Febin brings his unique voice back to the stage, delivering a show like no other. Don’t miss out on the magic!" >
+
+<img src="febin.jpg" alt="Welcome Back Febin Poster">
+<div class="item-overlay">
+   <h3 class="item-title">Welcome Back Febin</h3>
+   <span class="item-category">Srishti</span>
+</div>
+</div>
+
+<!-- Poster 5 -->
+<div class="gallery-item" data-title="Stage Legends" data-category="Srishti" 
+data-description="A dynamic stage performance by Arjun KC and Febin, captured in the heart of St. Thomas College. The image reflects the energy and passion of these two talented singers as they command the stage, creating a memorable moment for the Srishti audience. Their synergy and performance evoke the spirit of live music, bringing the crowd together in celebration.">
+<img src="Srishti11.jpg" alt="Stage Legends">
+<div class="item-overlay">
+   <h3 class="item-title">Two Stage Legends</h3>
+   <span class="item-category">Srishti</span>
+</div>
+</div>
+</div>
+</div>
+        
+        <!-- Event Posters -->
+        <div class="gallery-section" data-category="events">
+            <h2 class="section-heading">Event Posters</h2>
+            <div class="gallery-grid">
+                <!-- Poster 4 -->
+                <div class="gallery-item" data-title="Al.Go.Rythm" data-category="events" 
+data-description="Al.Go.Rythm, the thrilling Freshers Day event hosted by the Department of Computer Science, combines technology, music, and rhythm into an unforgettable experience. This poster captures the fusion of algorithmic beats and energetic performances, symbolizing the dynamic spirit of the department as they welcome new students into the fold. The vibrant design reflects the excitement and innovation of the day, setting the tone for a memorable beginning at St. Thomas College.">
+<img src="20230729_095530.jpg" alt="Al.Go.Rythm Poster">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Al.Go.Rythm</h3>
+                        <span class="item-category">Events</span>
+                    </div>
+                </div>
+                
+                <!-- Poster 5 -->
+                <div class="gallery-item" data-title="Cybersentinel" data-category="events" 
+data-description="Cybersentinel, an insightful seminar on Cybersecurity, aims to empower students with the knowledge and tools to navigate the ever-evolving digital landscape. Organized by the Department of Computer Science, this event focuses on the latest trends, threats, and best practices in safeguarding digital assets. The seminar features expert speakers, interactive sessions, and real-world case studies, making it an essential learning experience for all those interested in the field of cybersecurity.">
+<img src="Cybersentinel Safeguarding.jpg" alt="Cybersentinel Poster">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Cybersentinel</h3>
+                        <span class="item-category">Events</span>
+                    </div>
+                </div>
+                
+                <!-- Poster 6 -->
+                <div class="gallery-item" data-title="Aavesham" data-category="events" 
+data-description="Aavesham, the grand Onam celebration at St. Joseph's Church, Kerala, brings together tradition, culture, and community spirit. This event highlights the rich heritage of Kerala through colorful pookalam, traditional Onam dances, and festive feasts, all while celebrating the return of King Mahabali. The celebration fosters unity and joy, with parishioners of all ages participating in various cultural activities, creating unforgettable memories and strengthening the bond of togetherness.">
+<img src="jain.jpg" alt="Aavesham">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Aavesham</h3>
+                        <span class="item-category">Events</span>
+                    </div>
+                </div>
+                <!-- Poster 5 -->
+                <div class="gallery-item" data-title="Alumni Meet" data-category="events" 
+data-description="The Alumni Meet at St. Thomas College brings together graduates from various years, rekindling old friendships and creating new connections. The event celebrates the journey of the alumni and their continued involvement with the college community. With inspiring speeches, networking opportunities, and nostalgic moments, this meet fosters a sense of pride and belonging, strengthening the bond between past and present students of St. Thomas College.">
+<img src="New Project 27 [651D710].png" alt="Alumni Meet Poster">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Alumni Meet</h3>
+                        <span class="item-category">Events</span>
+                    </div>
+                </div>
+                
+                <!-- Poster 6 -->
+                <div class="gallery-item" data-title="Admission Help Desk" data-category="events" 
+data-description="The Admission Help Desk at St. Thomas College is dedicated to providing students and their families with all the information and assistance needed for a smooth admission process. Staffed with knowledgeable counselors, the desk offers guidance on course selection, document submission, and important deadlines, ensuring that every step of the admission procedure is clear and efficient. Whether you’re a prospective student or a parent, the Help Desk is your go-to resource for a hassle-free admission experience.">
+<img src="New Project [84EFFD8].png" alt="Admission Help Desk Poster">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Admission Help Desk</h3>
+                        <span class="item-category">Events</span>
+                    </div>
+                </div>
+                <!-- Poster 5 -->
+                <div class="gallery-item" data-title="TechOrient" data-category="events" 
+data-description="TechOrient is an engaging orientation session for new students enrolled in the First Year Undergraduate Program (FYUGP) at St. Thomas College. The session is designed to introduce students to the world of technology and innovation that they will encounter throughout their academic journey. With a focus on essential skills, resources, and academic expectations, TechOrient aims to prepare students for success in the fast-evolving tech landscape. Through interactive sessions and expert guidance, new students will gain insights into making the most of their college experience in the ever-changing tech-driven world.">
+<img src="ORI2.jpg" alt="TechOrient Poster">
+                    <div class="item-overlay">
+                        <h3 class="item-title">TechOrient</h3>
+                        <span class="item-category">Events</span>
+                    </div>
+                </div>
+                
+                <!-- Poster 6 -->
+                <div class="gallery-item" data-title="Varshangalk Shesham" data-category="events" 
+data-description="Varshangalk Shesham is a heartwarming reunion of the 10th batch of alumni from Infant Jesus School. This meetup celebrates the journey of the former students, reconnecting them with their roots and each other. With nostalgic memories, shared experiences, and meaningful conversations, the event fosters a sense of community and lifelong friendship. As old classmates reunite, they reminisce about their school days while celebrating the personal and professional milestones they’ve achieved since then.">
+<img src="Varshanglkk Shesham.jpg" alt="Varshangalk Shesham Poster">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Varshangalk Shesham</h3>
+                        <span class="item-category">Events</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Movie Posters -->
+        <div class="gallery-section" data-category="movies">
+            <h2 class="section-heading">Movie Posters</h2>
+            <div class="gallery-grid">
+                <!-- Poster 7 -->
+                <div class="gallery-item" data-title="Bougainvillea" data-category="movies" 
+data-description="Bougainvillea is a fan-made poster for an imagined Malayalam film featuring the stellar cast of Kunchacko Boban, Fahad Fassil, and Jyothirmayi. This visually captivating poster blends elements of drama, romance, and mystery, capturing the essence of the characters and the beauty of the narrative. With vibrant colors and cinematic design, the poster celebrates the bond between the characters, set against a picturesque backdrop that reflects the emotional depth and complexity of the story. A tribute to Malayalam cinema, this fan creation brings together a dream team of actors for a film that promises to be a memorable cinematic journey.">
+<img src="Bogan 1.png" alt="Bougainvillea Poster">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Bougainvillea</h3>
+                        <span class="item-category">Movies</span>
+                    </div>
+                </div>
+                
+                <!-- Poster 8 -->
+                <div class="gallery-item" data-title="Conclusion" data-category="movies" 
+data-description="Conclusion is a gripping short film that delves into the complexities of life, relationships, and the choices we make. This poster encapsulates the film's emotional depth and thought-provoking themes, inviting the audience to reflect on their own journeys. With minimalist design elements and a striking visual, it hints at the film's powerful narrative that culminates in an unexpected and poignant ending. A story of self-discovery and closure, Conclusion leaves a lasting impression on all who watch it.">
+<img src="conclusion2.jpg" alt="Conclusion">
+                    <div class="item-overlay">
+                        <h3 class="item-title">Conclusion</h3>
+                        <span class="item-category">Movies</span>
+                    </div>
+                </div>   
+        </div>
+    </div>
+    
+     <!-- Branding Posters -->
+     <div class="gallery-section" data-category="branding">
+        <h2 class="section-heading">Branding Posters</h2>
+        <div class="gallery-grid">
+            <!-- Poster 7 -->
+            <div class="gallery-item" data-title="Diwali Wishes from Meraki" data-category="branding" 
+data-description="Meraki extends warm Diwali wishes to all, celebrating the festival of lights with joy, hope, and prosperity. This vibrant poster reflects the essence of Diwali — the triumph of light over darkness and positivity over negativity. Infused with traditional Indian motifs and modern design elements, the poster symbolizes cultural harmony and festive spirit, bridging continents with warmth and celebration from Australia to the world.">
+<img src="1.jpg" alt="Diwali Wishes from Meraki Poster">
+                <div class="item-overlay">
+                    <h3 class="item-title">Diwali Wishes from Meraki</h3>
+                    <span class="item-category">Branding</span>
+                </div>
+            </div>
+            
+            <!-- Poster 8 -->
+            <div class="gallery-item" data-title="Srishti Special at Taksim Istanbul" data-category="branding" 
+data-description="Celebrate the spirit of Srishti with an exclusive special discount offer at Taksim Istanbul! This vibrant poster highlights limited-time deals on authentic Turkish cuisine, inviting guests to indulge in rich flavors and warm hospitality. Designed with festive flair and cultural elegance, the poster captures the fusion of Srishti's energy and Taksim's unique dining experience, making it the perfect destination for celebration and culinary delight.">
+<img src="IMG_20240201_223353_173.jpg" alt="Srishti Special at Taksim Istanbul">
+                <div class="item-overlay">
+                    <h3 class="item-title">Srishti Special at Taksim Istanbul</h3>
+                    <span class="item-category">Branding</span>
+                </div>
+            </div>   
+
+            <!-- Poster 7 -->
+            <div class="gallery-item" data-title="Diwali Delights from The Malabar Express" data-category="branding" 
+data-description="The Malabar Express Food Truck lights up your Diwali with festive flavors and mouth-watering delicacies straight from Kerala. This colorful poster captures the joy of the festival of lights with traditional motifs and a modern street food twist. Celebrate the season with crispy snacks, aromatic biryanis, and sweet treats — all served with love and festive cheer. Wishing everyone a delicious and dazzling Diwali from The Malabar Express!">
+ <img src="Malabar2.jpg" alt="Diwali Delights from The Malabar Express Poster">
+                <div class="item-overlay">
+                    <h3 class="item-title">Diwali Delights from The Malabar Express</h3>
+                    <span class="item-category">Branding</span>
+                </div>
+            </div>
+            
+            <!-- Poster 8 -->
+            <div class="gallery-item" data-title="Aaravam" data-category="Festival Poster" 
+data-description="Aaravam by Meraki is a vibrant tribute to Keralapiravi, celebrating the rich culture, traditions, and spirit of Kerala. This festival poster captures the essence of 'God’s Own Country' with visuals of lush greenery, classical art forms, and festive colors. Designed to evoke pride and nostalgia, Aaravam blends modern aesthetics with Kerala’s timeless heritage, making it a heartfelt celebration of the land, its people, and its legacy. Happy Keralapiravi from Team Meraki!">
+<img src="Meraki.jpg" alt="Summer Waves Poster">
+                <div class="item-overlay">
+                    <h3 class="item-title">Summer Waves</h3>
+                    <span class="item-category">Branding</span>
+                </div>
+            </div>
+
+             <!-- Poster 8 -->
+             <div class="gallery-item" data-title="Meraki Ice Cream Menu" data-category="Menu" 
+data-description="Cool off with Meraki’s irresistible ice cream menu! Choose from fun and flavorful scoops like Candy Floss, Rocky Road, Cookies & Cream, Boysenberry, Bubblegum, Chocolate Obsession, Rainbow, Irish Cream & Almonds, Strawberry Summer, Mango Magnificent, Macadamia, Nutty Ella, Honeycomb Crunch, and Vanilla Supreme. Enjoy a single scoop in a cup for $5 or in a waffle cone for $6. Crafted with love and bursting with flavor, each scoop is a treat to remember. *Our food contains nuts, gluten, and dairy products.">
+<img src="Newwwww.jpg" alt="Summer Waves Poster">
+            <div class="item-overlay">
+                <h3 class="item-title">Summer Waves</h3>
+                <span class="item-category">Branding</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+     <!-- Other Posters -->
+     <div class="gallery-section" data-category="others">
+        <h2 class="section-heading">Other Posters</h2>
+        <div class="gallery-grid">
+            <!-- Poster 7 -->
+            <div class="gallery-item" data-title="Abhishek" data-category="others" 
+            data-description="A powerful character poster showcasing Abhishek — a real individual known for his authenticity, confidence, and calm presence. This visual captures the essence of his personality, blending strength with simplicity. More than just a face, the poster reflects his journey, values, and the quiet determination that defines him.">
+            <img src="Abeesh.jpg" alt="Abhishek">
+                <div class="item-overlay">
+                    <h3 class="item-title">Abhishek</h3>
+                    <span class="item-category">Others</span>
+                </div>
+            </div>
+            
+            <!-- Poster 8 -->
+            <div class="gallery-item" data-title="Flora" data-category="others" 
+data-description="Meet Flora — a character poster capturing the essence of grace and depth through her mesmerizing eyes. With a gaze that tells stories beyond words, Flora's presence is both gentle and powerful. The poster highlights the quiet charm and emotional depth that make her truly unforgettable.">
+<img src="Flora.jpg" alt="Flora">
+                <div class="item-overlay">
+                    <h3 class="item-title">Flora</h3>
+                    <span class="item-category">Others</span>
+                </div>
+            </div>   
+
+            <!-- Poster 7 -->
+            <div class="gallery-item" data-title="BOUN NATALE: Thrissur's Christmas Celebration" data-category="others" 
+                 data-description="Join us in the heart of Thrissur for BOUN NATALE, a festive celebration filled with joy, music, dance, and the magic of Christmas. Celebrate the holiday season with vibrant performances, heartwarming traditions, and a sense of togetherness.">
+<img src="Boun NAt.jpg" alt="Neon Dreams Poster">
+                <div class="item-overlay">
+                    <h3 class="item-title">Neon Dreams</h3>
+                    <span class="item-category">Others</span>
+                </div>
+            </div>
+            
+            <!-- Poster 8 -->
+            <div class="gallery-item" data-title="Kallanum Pollisum: The Ultimate Showdown" data-category="others" 
+            data-description="Watch cousins come together for an epic game of fun and friendly competition in **Kallanum Pollisum**! It's all about strategy, laughter, and a little bit of mischief as they compete for the ultimate win. Let the games begin!">
+<img src="Kallunum Polism.jpg" alt="Kallanum Pollisum Poster">
+                <div class="item-overlay">
+                    <h3 class="item-title">Kallanum Pollisum</h3>
+                    <span class="item-category">Others</span>
+                </div>
+            </div>
+    </div>
+</div>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <div class="lightbox-nav">
+            <div class="lightbox-prev" id="lightbox-prev"><i class="fas fa-chevron-left"></i></div>
+            <div class="lightbox-next" id="lightbox-next"><i class="fas fa-chevron-right"></i></div>
+        </div>
+        <div class="lightbox-content">
+            <div class="lightbox-image">
+                <img id="lightbox-img" src="" alt="">
+            </div>
+            <div class="lightbox-details">
+                <h2 class="lightbox-title" id="lightbox-title"></h2>
+                <span class="lightbox-category" id="lightbox-category"></span>
+                <p class="lightbox-description" id="lightbox-description"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Emil Antu K. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxCategory = document.getElementById('lightbox-category');
+        const lightboxDescription = document.getElementById('lightbox-description');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        let currentIndex = 0;
+        let itemsArray = [];
+        
+        // Initialize lightbox with clicked item
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                const title = item.dataset.title;
+                const category = item.dataset.category;
+                const description = item.dataset.description;
+                
+                lightboxImg.src = imgSrc;
+                lightboxTitle.textContent = title;
+                lightboxCategory.textContent = category;
+                lightboxDescription.textContent = description;
+                
+                // Create array of all gallery items for navigation
+                itemsArray = Array.from(galleryItems);
+                currentIndex = itemsArray.indexOf(item);
+                
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Close lightbox
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close when clicking outside content
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Navigation between items
+        document.getElementById('lightbox-prev').addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigate(-1);
+        });
+        
+        document.getElementById('lightbox-next').addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigate(1);
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') {
+                    navigate(-1);
+                } else if (e.key === 'ArrowRight') {
+                    navigate(1);
+                } else if (e.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+        
+        function navigate(direction) {
+            currentIndex += direction;
+            
+            // Wrap around
+            if (currentIndex >= itemsArray.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = itemsArray.length - 1;
+            }
+            
+            const item = itemsArray[currentIndex];
+            const imgSrc = item.querySelector('img').src;
+            const title = item.dataset.title;
+            const category = item.dataset.category;
+            const description = item.dataset.description;
+            
+            lightboxImg.src = imgSrc;
+            lightboxTitle.textContent = title;
+            lightboxCategory.textContent = category;
+            lightboxDescription.textContent = description;
+        }
+        
+        // Category filtering
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const gallerySections = document.querySelectorAll('.gallery-section');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.dataset.category;
+                
+                // Update active tab
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Show/hide sections
+                gallerySections.forEach(section => {
+                    if (category === 'all' || section.dataset.category === category) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
