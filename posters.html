@@ -29,12 +29,12 @@
             transition: all 0.3s ease;
         }
         
-        /* Navigation */
-        nav {
+       /* Navigation */
+       nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 5%;
+            padding: 1.5rem 5%;
             background-color: rgba(18, 18, 18, 0.9);
             position: fixed;
             width: 100%;
@@ -48,15 +48,27 @@
             font-size: 1.8rem;
             font-weight: 700;
             letter-spacing: 2px;
+            z-index: 101;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        .hamburger i {
+            font-size: 1.8rem;
         }
         
         nav ul {
             display: flex;
             list-style: none;
+            transition: all 0.3s ease;
         }
         
         nav ul li {
-            margin: 0 1.5rem;
+            margin: 0 1rem;
             position: relative;
         }
         
@@ -79,6 +91,55 @@
         
         nav ul li:hover::after {
             width: 100%;
+        }
+        
+       /* Improved Mobile Menu */
+       @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: #121212;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start; /* Changed from center to flex-start */
+                padding: 2rem;
+                border-left: 1px solid #333;
+                gap: 2rem; /* Added gap between menu items */
+            }
+            
+            nav ul.active {
+                right: 0;
+            }
+            
+            nav ul li {
+                margin: 0; /* Removed fixed margin */
+                width: 100%;
+                padding: 1rem 0; /* Added vertical padding */
+                border-bottom: 1px solid rgba(255,255,255,0.1); /* Added subtle separator */
+            }
+            
+            nav ul li:last-child {
+                border-bottom: none; /* Remove border from last item */
+            }
+            
+            nav ul li a {
+                font-size: 1.2rem; /* Slightly larger text */
+                display: block;
+                width: 100%;
+                padding: 0.5rem 0; /* Added padding for better touch target */
+            }
+            
+            nav ul li::after {
+                bottom: 0; /* Adjusted underline position */
+                height: 1px; /* Thinner underline */
+            }
         }
         
         /* Main Content */
@@ -322,32 +383,63 @@
             color: #666;
         }
         
-        /* Responsive */
+        /* Improved Lightbox for Mobile */
         @media (max-width: 992px) {
             .lightbox-content {
                 flex-direction: column;
-                max-height: 90%;
-                width: 90%;
+                max-height: 90vh; /* Changed from 90% to viewport height */
+                width: 95%;
             }
             
             .lightbox-image {
                 flex: none;
-                height: 60%;
+                height: 50vh; /* Fixed height for image area */
                 padding: 1rem;
+                max-height: 50%;
             }
             
             .lightbox-details {
                 flex: none;
                 border-left: none;
                 border-top: 1px solid #333;
-                max-height: 40%;
+                max-height: 40vh; /* Fixed height for details */
+                overflow-y: auto; /* Make description scrollable */
+               
+                padding: 1.5rem;
             }
             
             .lightbox-image img {
                 max-height: 100%;
             }
+            
+            .lightbox-title {
+                font-size: 1.5rem;
+            }
+            
+            .lightbox-description {
+                font-size: 1rem;
+            }
+            .gallery-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            }
+            .gallery-item {
+             aspect-ratio: 1/1.3;
+            }
         }
-        
+        @media (max-width: 768px) {
+            .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+    
+            .gallery-item {
+            aspect-ratio: 1/1.2;
+        }
+            .section-heading {
+            font-size: 1.8rem;
+        }
+        }
         @media (max-width: 768px) {
             .page-title {
                 font-size: 2.5rem;
@@ -356,10 +448,7 @@
             .main-content {
                 padding: 8rem 5% 3rem;
             }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
+        
         }
         
         @media (max-width: 576px) {
@@ -367,13 +456,31 @@
                 font-size: 2rem;
             }
             
-            .section-heading {
-                font-size: 1.5rem;
-            }
-            
             .gallery-grid {
-                grid-template-columns: 1fr;
-            }
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+    
+    .gallery-item {
+        aspect-ratio: 1/1.1;
+    }
+    
+    .item-overlay {
+        padding: 1rem;
+    }
+    
+    .item-title {
+        font-size: 1rem;
+    }
+    
+    .item-category {
+        font-size: 0.8rem;
+    }
+    
+    .section-heading {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
             
             .lightbox-title {
                 font-size: 1.5rem;
@@ -384,13 +491,19 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">MUSEFULL</div>
-        <ul>
+        <div class="logo">EMIL ANTU K</div>
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul id="nav-menu">
             <li><a href="index.html#home">Home</a></li>
             <li><a href="index.html#works">Works</a></li>
             <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="figma.html">Figma</a></li>
+            <li><a href="projects.html">Projects</a></li>
         </ul>
     </nav>
+
     
     <!-- Main Content -->
     <div class="main-content">
@@ -559,6 +672,16 @@ data-description="Cybersentinel, an insightful seminar on Cybersecurity, aims to
                         <span class="item-category">Events</span>
                     </div>
                 </div>
+
+                 <!-- Poster 5 -->
+                 <div class="gallery-item" data-title="Placement Template" data-category="events" 
+                 data-description="Congratulations Poster of Student who recieved the Placed from St. Thomas College Thrissur ">
+                 <img src="Placement.jpg" alt="Placement Poster">
+                                     <div class="item-overlay">
+                                         <h3 class="item-title">Placement</h3>
+                                         <span class="item-category">Events</span>
+                                     </div>
+                                 </div>
                 
                 <!-- Poster 6 -->
                 <div class="gallery-item" data-title="Aavesham" data-category="events" 
@@ -673,9 +796,9 @@ data-description="The Malabar Express Food Truck lights up your Diwali with fest
             <!-- Poster 8 -->
             <div class="gallery-item" data-title="Aaravam" data-category="Festival Poster" 
 data-description="Aaravam by Meraki is a vibrant tribute to Keralapiravi, celebrating the rich culture, traditions, and spirit of Kerala. This festival poster captures the essence of 'God’s Own Country' with visuals of lush greenery, classical art forms, and festive colors. Designed to evoke pride and nostalgia, Aaravam blends modern aesthetics with Kerala’s timeless heritage, making it a heartfelt celebration of the land, its people, and its legacy. Happy Keralapiravi from Team Meraki!">
-<img src="Meraki.jpg" alt="Summer Waves Poster">
+<img src="Meraki.jpg" alt="Aaravam Poster">
                 <div class="item-overlay">
-                    <h3 class="item-title">Summer Waves</h3>
+                    <h3 class="item-title">Aaravam</h3>
                     <span class="item-category">Branding</span>
                 </div>
             </div>
@@ -683,9 +806,9 @@ data-description="Aaravam by Meraki is a vibrant tribute to Keralapiravi, celebr
              <!-- Poster 8 -->
              <div class="gallery-item" data-title="Meraki Ice Cream Menu" data-category="Menu" 
 data-description="Cool off with Meraki’s irresistible ice cream menu! Choose from fun and flavorful scoops like Candy Floss, Rocky Road, Cookies & Cream, Boysenberry, Bubblegum, Chocolate Obsession, Rainbow, Irish Cream & Almonds, Strawberry Summer, Mango Magnificent, Macadamia, Nutty Ella, Honeycomb Crunch, and Vanilla Supreme. Enjoy a single scoop in a cup for $5 or in a waffle cone for $6. Crafted with love and bursting with flavor, each scoop is a treat to remember. *Our food contains nuts, gluten, and dairy products.">
-<img src="Newwwww.jpg" alt="Summer Waves Poster">
+<img src="Newwwww.jpg" alt="Meraki Ice Cream Menu">
             <div class="item-overlay">
-                <h3 class="item-title">Summer Waves</h3>
+                <h3 class="item-title">Meraki Ice Cream Menu</h3>
                 <span class="item-category">Branding</span>
             </div>
         </div>
@@ -721,7 +844,7 @@ data-description="Meet Flora — a character poster capturing the essence of gra
                  data-description="Join us in the heart of Thrissur for BOUN NATALE, a festive celebration filled with joy, music, dance, and the magic of Christmas. Celebrate the holiday season with vibrant performances, heartwarming traditions, and a sense of togetherness.">
 <img src="Boun NAt.jpg" alt="Neon Dreams Poster">
                 <div class="item-overlay">
-                    <h3 class="item-title">Neon Dreams</h3>
+                    <h3 class="item-title">BOUN NATALE</h3>
                     <span class="item-category">Others</span>
                 </div>
             </div>
@@ -761,7 +884,31 @@ data-description="Meet Flora — a character poster capturing the essence of gra
     <footer>
         <p>&copy; 2025 Emil Antu K. All rights reserved.</p>
     </footer>
-    
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+            
+            // Toggle body scroll when menu is open
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+        
+        // Close menu when clicking a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+
     <script>
         // Lightbox functionality
         const lightbox = document.getElementById('lightbox');
