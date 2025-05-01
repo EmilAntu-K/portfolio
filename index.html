@@ -34,7 +34,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 5%;
+            padding: 1.5rem 5%;
             background-color: rgba(18, 18, 18, 0.9);
             position: fixed;
             width: 100%;
@@ -48,11 +48,23 @@
             font-size: 1.8rem;
             font-weight: 700;
             letter-spacing: 2px;
+            z-index: 101;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        .hamburger i {
+            font-size: 1.8rem;
         }
         
         nav ul {
             display: flex;
             list-style: none;
+            transition: all 0.3s ease;
         }
         
         nav ul li {
@@ -81,6 +93,56 @@
             width: 100%;
         }
         
+       /* Improved Mobile Menu */
+       @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: #121212;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start; /* Changed from center to flex-start */
+                padding: 2rem;
+                border-left: 1px solid #333;
+                gap: 2rem; /* Added gap between menu items */
+            }
+            
+            nav ul.active {
+                right: 0;
+            }
+            
+            nav ul li {
+                margin: 0; /* Removed fixed margin */
+                width: 100%;
+                padding: 1rem 0; /* Added vertical padding */
+                border-bottom: 1px solid rgba(255,255,255,0.1); /* Added subtle separator */
+            }
+            
+            nav ul li:last-child {
+                border-bottom: none; /* Remove border from last item */
+            }
+            
+            nav ul li a {
+                font-size: 1.2rem; /* Slightly larger text */
+                display: block;
+                width: 100%;
+                padding: 0.5rem 0; /* Added padding for better touch target */
+            }
+            
+            nav ul li::after {
+                bottom: 0; /* Adjusted underline position */
+                height: 1px; /* Thinner underline */
+            }
+        }
+        
+        
         /* Sections */
         section {
             min-height: 100vh;
@@ -89,7 +151,7 @@
         
         /* Home Section */
         #home {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('bg.png') no-repeat center center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('bg.png') no-repeat center center;
             background-size: cover;
             display: flex;
             align-items: center;
@@ -455,14 +517,18 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">MUSEFULL</div>
-        <ul>
+        <div class="logo">EMIL ANTU K</div>
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul id="nav-menu">
             <li><a href="#home">Home</a></li>
             <li><a href="#works">Works</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
-    
+
+
     <!-- Home Section -->
     <section id="home">
         <div class="home-content">
@@ -484,7 +550,7 @@
         <div class="works-grid">
             <div class="work-card" onclick="window.location.href='posters.html'">
                 <div class="card-image">
-                    <img src="placeholder-poster.jpg" alt="Posters">
+                    <img src="poster_Icon.jpg" alt="Posters">
                 </div>
                 <div class="card-content">
                     <h3>Poster Designs</h3>
@@ -493,7 +559,7 @@
             </div>
             <div class="work-card" onclick="window.location.href='figma.html'">
                 <div class="card-image">
-                    <img src="placeholder-figma.jpg" alt="Figma Designs">
+                    <img src="figma.jpg" alt="Figma Designs">
                 </div>
                 <div class="card-content">
                     <h3>UI/UX Projects</h3>
@@ -502,7 +568,7 @@
             </div>
             <div class="work-card" onclick="window.location.href='projects.html'">
                 <div class="card-image">
-                    <img src="placeholder-projects.jpg" alt="Other Projects">
+                    <img src="project.jpg" alt="Other Projects">
                 </div>
                 <div class="card-content">
                     <h3>Creative Experiments</h3>
@@ -535,5 +601,32 @@
     <footer>
         <p>&copy; 2025 Emil Antu K. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+            
+            // Toggle body scroll when menu is open
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+        
+        // Close menu when clicking a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+
+
 </body>
 </html>
