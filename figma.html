@@ -3,26 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poster Design Gallery</title>
+    <title>Other Projects</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Global Styles */
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
-        
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
         
         body {
-            color: #fff;
             background-color: #121212;
+            color: #fff;
             line-height: 1.6;
-            overflow-x: hidden;
         }
-        
         a {
             text-decoration: none;
             color: #fff;
@@ -34,7 +30,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 5%;
+            padding: 1.5rem 5%;
             background-color: rgba(18, 18, 18, 0.9);
             position: fixed;
             width: 100%;
@@ -48,11 +44,23 @@
             font-size: 1.8rem;
             font-weight: 700;
             letter-spacing: 2px;
+            z-index: 101;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        .hamburger i {
+            font-size: 1.8rem;
         }
         
         nav ul {
             display: flex;
             list-style: none;
+            transition: all 0.3s ease;
         }
         
         nav ul li {
@@ -81,15 +89,64 @@
             width: 100%;
         }
         
+       /* Improved Mobile Menu */
+       @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: #121212;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start; /* Changed from center to flex-start */
+                padding: 2rem;
+                border-left: 1px solid #333;
+                gap: 2rem; /* Added gap between menu items */
+            }
+            
+            nav ul.active {
+                right: 0;
+            }
+            
+            nav ul li {
+                margin: 0; /* Removed fixed margin */
+                width: 100%;
+                padding: 1rem 0; /* Added vertical padding */
+                border-bottom: 1px solid rgba(255,255,255,0.1); /* Added subtle separator */
+            }
+            
+            nav ul li:last-child {
+                border-bottom: none; /* Remove border from last item */
+            }
+            
+            nav ul li a {
+                font-size: 1.2rem; /* Slightly larger text */
+                display: block;
+                width: 100%;
+                padding: 0.5rem 0; /* Added padding for better touch target */
+            }
+            
+            nav ul li::after {
+                bottom: 0; /* Adjusted underline position */
+                height: 1px; /* Thinner underline */
+            }
+        }
         /* Main Content */
         .main-content {
             padding: 10rem 5% 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         .page-title {
             font-size: 3.5rem;
             margin-bottom: 3rem;
-            font-weight: 700;
             position: relative;
             display: inline-block;
         }
@@ -104,101 +161,58 @@
             left: 25%;
         }
         
-        /* Category Tabs */
-        .category-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .tab-button {
-            padding: 0.8rem 2rem;
-            background: #2a2a2a;
-            border: none;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .tab-button:hover, .tab-button.active {
-            background: #fff;
-            color: #121212;
-        }
-        
-        /* Gallery Grid */
-        .gallery-section {
+        /* Project Groups */
+        .project-group {
             margin-bottom: 5rem;
         }
         
-        .section-heading {
-            font-size: 2rem;
+        .group-title {
+            font-size: 2.2rem;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #333;
+            color: #fff;
         }
         
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+        .group-description {
+            color: #ccc;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            line-height: 1.7;
         }
         
-        .gallery-item {
+        /* Image Carousel */
+        .carousel-container {
             position: relative;
+            margin: 2rem 0;
+        }
+        
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .carousel::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+        
+        .carousel-item {
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+            width: 300px;
+            height: 400px;
             border-radius: 10px;
             overflow: hidden;
-            cursor: pointer;
-            aspect-ratio: 1/1.4;
+            position: relative;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
-        
-        .gallery-item:hover {
-            transform: scale(1.02);
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .item-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            padding: 1.5rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .gallery-item:hover .item-overlay {
-            opacity: 1;
-        }
-        
-        .item-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        
-        .item-category {
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-        
-        /* Lightbox Overlay */
+
+        /* Add these new styles for lightbox */
         .lightbox {
             position: fixed;
             top: 0;
@@ -214,90 +228,54 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        
+
         .lightbox.active {
             opacity: 1;
             pointer-events: all;
         }
-        
+
         .lightbox-content {
-            display: flex;
+            position: relative;
             max-width: 90%;
             max-height: 90%;
-            width: 1200px;
-            background: #1e1e1e;
-            border-radius: 10px;
-            overflow: hidden;
         }
-        
-        .lightbox-image {
-            flex: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        
-        .lightbox-image img {
-            max-width: 100%;
+
+        .lightbox-img {
             max-height: 80vh;
+            max-width: 90vw;
             object-fit: contain;
             border-radius: 5px;
         }
-        
-        .lightbox-details {
-            flex: 1;
-            padding: 2rem;
-            overflow-y: auto;
-            border-left: 1px solid #333;
-        }
-        
-        .lightbox-title {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .lightbox-category {
-            display: inline-block;
-            background: #333;
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .lightbox-description {
-            margin-bottom: 2rem;
-            color: #ccc;
-            line-height: 1.7;
-        }
-        
+
         .lightbox-close {
             position: absolute;
-            top: 2rem;
-            right: 2rem;
+            top: 20px;
+            right: 20px;
             font-size: 2rem;
+            color: white;
             cursor: pointer;
-            color: #fff;
-            transition: color 0.3s ease;
-        }
-        
-        .lightbox-close:hover {
-            color: #aaa;
-        }
-        
-        .lightbox-nav {
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
-            width: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-nav {
             position: absolute;
             top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
             transform: translateY(-50%);
-            padding: 0 2rem;
+            padding: 0 20px;
         }
-        
-        .lightbox-prev, .lightbox-next {
+
+        .lightbox-arrow {
             font-size: 2rem;
+            color: white;
             cursor: pointer;
             background: rgba(0, 0, 0, 0.5);
             width: 50px;
@@ -308,8 +286,54 @@
             justify-content: center;
             transition: all 0.3s ease;
         }
+
+        .lightbox-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
         
-        .lightbox-prev:hover, .lightbox-next:hover {
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .carousel-item:hover {
+            transform: scale(1.02);
+        }
+        
+        .carousel-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        
+        .carousel-btn {
+            pointer-events: all;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .carousel-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
         
@@ -318,65 +342,22 @@
             text-align: center;
             padding: 3rem;
             background: #0a0a0a;
-            font-size: 0.9rem;
             color: #666;
         }
         
         /* Responsive */
-        @media (max-width: 992px) {
-            .lightbox-content {
-                flex-direction: column;
-                max-height: 90%;
-                width: 90%;
-            }
-            
-            .lightbox-image {
-                flex: none;
-                height: 60%;
-                padding: 1rem;
-            }
-            
-            .lightbox-details {
-                flex: none;
-                border-left: none;
-                border-top: 1px solid #333;
-                max-height: 40%;
-            }
-            
-            .lightbox-image img {
-                max-height: 100%;
-            }
-        }
-        
         @media (max-width: 768px) {
             .page-title {
                 font-size: 2.5rem;
             }
             
-            .main-content {
-                padding: 8rem 5% 3rem;
+            .group-title {
+                font-size: 1.8rem;
             }
             
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .page-title {
-                font-size: 2rem;
-            }
-            
-            .section-heading {
-                font-size: 1.5rem;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .lightbox-title {
-                font-size: 1.5rem;
+            .carousel-item {
+                width: 250px;
+                height: 350px;
             }
         }
     </style>
@@ -384,71 +365,72 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">MUSEFULL</div>
-        <ul>
+        <div class="logo">EMIL ANTU K</div>
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul id="nav-menu">
             <li><a href="index.html#home">Home</a></li>
             <li><a href="index.html#works">Works</a></li>
             <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="posters.html">Posters</a></li>
+            <li><a href="projects.html">Projects</a></li>
         </ul>
     </nav>
+
     
     <!-- Main Content -->
     <div class="main-content">
-        <h1 class="page-title">Figma Template Gallery</h1>
+        <h1 class="page-title">Figma Templates</h1>
         
-        <!-- Music Posters -->
-        <div class="gallery-section" >  
-            <div class="gallery-grid">
-                <!-- Poster 1 -->
-                <div class="gallery-item" data-title="Jazz Night" data-category="music"
-                     data-description="Poster designed for a local jazz festival featuring vibrant colors and dynamic typography to capture the energy of live jazz performances. Created using a combination of hand-drawn elements and digital illustration.">
-                    <img src="e.jpg" alt="Jazz Night Poster">
-                    <div class="item-overlay">
-                        <h3 class="item-title">Jazz Night</h3>
-                        <span class="item-category">Music</span>
+        <!-- Project Group 1 -->
+        <div class="project-group">
+            <h2 class="group-title">Portfolio Template</h2>
+            <p class="group-description">
+                A portfolio is a personal or professional presentation tool that 
+                highlights who you are and what you are capable of. It includes 
+                a curated selection of your best work, experiences, and relevant 
+                achievements. The purpose of a portfolio is to communicate your 
+                strengths, tell your story, and showcase your expertise or potential 
+                to employers, clients, collaborators, or academic institutions.
+            </p>
+            
+            <div class="carousel-container">
+                <div class="carousel" id="carousel-1">
+                    <div class="carousel-item">
+                        <img src="Figma_1.1.png" alt="Typography Project 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Figma_1.2.png" alt="Typography Project 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Figma_1.3.png" alt="Typography Project 3">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Figma_1.4.png" alt="Typography Project 4">
                     </div>
                 </div>
                 
-                <!-- Poster 2 -->
-                <div class="gallery-item" data-title="Electronic Waves" data-category="music" 
-                     data-description="Minimalist design for an electronic music event, using geometric patterns and neon accents to represent different music frequencies. The glow effects were achieved through careful layering in Photoshop.">
-                    <img src="febin.jpg" alt="Electronic Waves Poster">
-                    <div class="item-overlay">
-                        <h3 class="item-title">Electronic Waves</h3>
-                        <span class="item-category">Music</span>
-                    </div>
-                </div>
-                
-                
-                <!-- Poster 9 -->
-                <div class="gallery-item" data-title="The Last Journey" data-category="movies" 
-                     data-description="Sci-fi movie poster featuring a dramatic spacecraft silhouette against a nebula background. The typography treatment with sharp angles complements the futuristic theme, while the color gradient suggests deep space.">
-                    <img src="New Project 27 [651D710].png" alt="The Last Journey Poster">
-                    <div class="item-overlay">
-                        <h3 class="item-title">The Last Journey</h3>
-                        <span class="item-category">Movies</span>
-                    </div>
+                <div class="carousel-nav">
+                    <button class="carousel-btn prev" onclick="scrollCarousel('carousel-1', -300)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next" onclick="scrollCarousel('carousel-1', 300)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Lightbox Overlay -->
+
     <div class="lightbox" id="lightbox">
         <span class="lightbox-close" id="lightbox-close">&times;</span>
-        <div class="lightbox-nav">
-            <div class="lightbox-prev" id="lightbox-prev"><i class="fas fa-chevron-left"></i></div>
-            <div class="lightbox-next" id="lightbox-next"><i class="fas fa-chevron-right"></i></div>
-        </div>
         <div class="lightbox-content">
-            <div class="lightbox-image">
-                <img id="lightbox-img" src="" alt="">
-            </div>
-            <div class="lightbox-details">
-                <h2 class="lightbox-title" id="lightbox-title"></h2>
-                <span class="lightbox-category" id="lightbox-category"></span>
-                <p class="lightbox-description" id="lightbox-description"></p>
-            </div>
+            <img class="lightbox-img" id="lightbox-image" src="" alt="">
+        </div>
+        <div class="lightbox-nav">
+            <div class="lightbox-arrow" id="lightbox-prev"><i class="fas fa-chevron-left"></i></div>
+            <div class="lightbox-arrow" id="lightbox-next"><i class="fas fa-chevron-right"></i></div>
         </div>
     </div>
     
@@ -456,125 +438,125 @@
     <footer>
         <p>&copy; 2025 Emil Antu K. All rights reserved.</p>
     </footer>
-    
     <script>
-        // Lightbox functionality
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxTitle = document.getElementById('lightbox-title');
-        const lightboxCategory = document.getElementById('lightbox-category');
-        const lightboxDescription = document.getElementById('lightbox-description');
-        const lightboxClose = document.getElementById('lightbox-close');
-        const galleryItems = document.querySelectorAll('.gallery-item');
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
         
-        let currentIndex = 0;
-        let itemsArray = [];
-        
-        // Initialize lightbox with clicked item
-        galleryItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                const imgSrc = item.querySelector('img').src;
-                const title = item.dataset.title;
-                const category = item.dataset.category;
-                const description = item.dataset.description;
-                
-                lightboxImg.src = imgSrc;
-                lightboxTitle.textContent = title;
-                lightboxCategory.textContent = category;
-                lightboxDescription.textContent = description;
-                
-                // Create array of all gallery items for navigation
-                itemsArray = Array.from(galleryItems);
-                currentIndex = itemsArray.indexOf(item);
-                
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+            
+            // Toggle body scroll when menu is open
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
         });
         
+        // Close menu when clicking a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+
+    <script>
+        // Carousel navigation
+        function scrollCarousel(carouselId, offset) {
+            const carousel = document.getElementById(carouselId);
+            carousel.scrollBy({
+                left: offset,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Auto-hide navigation arrows when at scroll boundaries
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            carousel.addEventListener('scroll', function() {
+                const arrows = this.parentElement.querySelectorAll('.carousel-btn');
+                const showLeft = this.scrollLeft > 0;
+                const showRight = this.scrollLeft < (this.scrollWidth - this.clientWidth);
+                
+                arrows[0].style.visibility = showLeft ? 'visible' : 'hidden';
+                arrows[1].style.visibility = showRight ? 'visible' : 'hidden';
+            });
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-image');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+
+        // Get all carousel images
+        const allImages = Array.from(document.querySelectorAll('.carousel-item img'));
+        let currentImageIndex = 0;
+
+        // Open lightbox when clicking an image
+        document.querySelectorAll('.carousel-item img').forEach((img, index) => {
+            img.addEventListener('click', () => {
+                currentImageIndex = index;
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+
         // Close lightbox
         lightboxClose.addEventListener('click', () => {
             lightbox.classList.remove('active');
             document.body.style.overflow = 'auto';
         });
-        
-        // Close when clicking outside content
+
+        // Navigation
+        lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigate(-1);
+        });
+
+        lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigate(1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowLeft') {
+                navigate(-1);
+            } else if (e.key === 'ArrowRight') {
+                navigate(1);
+            } else if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        function navigate(direction) {
+            currentImageIndex += direction;
+            
+            // Wrap around
+            if (currentImageIndex >= allImages.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = allImages.length - 1;
+            }
+            
+            lightboxImg.src = allImages[currentImageIndex].src;
+        }
+
+        // Close when clicking outside image
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
                 lightbox.classList.remove('active');
                 document.body.style.overflow = 'auto';
             }
         });
-        
-        // Navigation between items
-        document.getElementById('lightbox-prev').addEventListener('click', (e) => {
-            e.stopPropagation();
-            navigate(-1);
-        });
-        
-        document.getElementById('lightbox-next').addEventListener('click', (e) => {
-            e.stopPropagation();
-            navigate(1);
-        });
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (lightbox.classList.contains('active')) {
-                if (e.key === 'ArrowLeft') {
-                    navigate(-1);
-                } else if (e.key === 'ArrowRight') {
-                    navigate(1);
-                } else if (e.key === 'Escape') {
-                    lightbox.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            }
-        });
-        
-        function navigate(direction) {
-            currentIndex += direction;
-            
-            // Wrap around
-            if (currentIndex >= itemsArray.length) {
-                currentIndex = 0;
-            } else if (currentIndex < 0) {
-                currentIndex = itemsArray.length - 1;
-            }
-            
-            const item = itemsArray[currentIndex];
-            const imgSrc = item.querySelector('img').src;
-            const title = item.dataset.title;
-            const category = item.dataset.category;
-            const description = item.dataset.description;
-            
-            lightboxImg.src = imgSrc;
-            lightboxTitle.textContent = title;
-            lightboxCategory.textContent = category;
-            lightboxDescription.textContent = description;
-        }
-        
-        // Category filtering
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const gallerySections = document.querySelectorAll('.gallery-section');
-        
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const category = button.dataset.category;
-                
-                // Update active tab
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                // Show/hide sections
-                gallerySections.forEach(section => {
-                    if (category === 'all' || section.dataset.category === category) {
-                        section.style.display = 'block';
-                    } else {
-                        section.style.display = 'none';
-                    }
-                });
-            });
-        });
+
     </script>
 </body>
 </html>
