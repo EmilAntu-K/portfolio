@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emil Antu K | Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --paper: #f7f3eb;
+            --paper-deep: #efe7db;
+            --ink: #171717;
+            --soft-ink: #5a544c;
+            --accent: #c85757;
+            --shadow: 0 18px 45px rgba(68, 48, 28, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            color: var(--ink);
+            background: linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 12% 16%, rgba(200, 87, 87, 0.1), transparent 24%),
+                radial-gradient(circle at 86% 18%, rgba(255, 255, 255, 0.55), transparent 20%),
+                radial-gradient(circle at 82% 72%, rgba(104, 146, 210, 0.08), transparent 18%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .floating-nav {
+            position: sticky;
+            top: 1rem;
+            z-index: 20;
+            width: fit-content;
+            margin: 1rem auto 0;
+            padding: 0.45rem 0.65rem;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(76, 55, 33, 0.12);
+        }
+
+        .floating-nav ul {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            list-style: none;
+        }
+
+        .floating-nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.45rem 0.85rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: rgba(23, 23, 23, 0.8);
+        }
+
+        .floating-nav a:hover {
+            background: rgba(255, 255, 255, 0.42);
+            color: var(--ink);
+        }
+
+        .page-shell {
+            width: min(100% - 6rem, 1380px);
+            margin: 0 auto;
+            padding: 3rem 0 5rem;
+        }
+
+        .hero {
+            padding: 4rem 0 2rem;
+        }
+
+        .hero-label {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.32);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--soft-ink);
+        }
+
+        .hero h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(3.4rem, 8vw, 6.5rem);
+            line-height: 0.95;
+            font-weight: 600;
+            max-width: 700px;
+        }
+
+        .hero p {
+            margin-top: 1rem;
+            max-width: 720px;
+            color: var(--soft-ink);
+            font-size: 1rem;
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 2.2rem 0 0;
+        }
+
+        .section-jump a {
+            padding: 0.8rem 1.1rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.45);
+            border: 1px solid rgba(23, 23, 23, 0.08);
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .section-jump a:hover {
+            background: rgba(23, 23, 23, 0.9);
+            color: #f7f3eb;
+        }
+
+        .work-section {
+            padding: 4.5rem 0 0;
+            scroll-margin-top: 6rem;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header span {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            line-height: 1;
+        }
+
+        .section-header p {
+            margin-top: 0.9rem;
+            max-width: 760px;
+            color: var(--soft-ink);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1.7rem 1.2rem;
+        }
+
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #fff;
+            border: 1px solid rgba(23, 23, 23, 0.08);
+            aspect-ratio: 4 / 5;
+            isolation: isolate;
+            transition: transform 0.28s ease;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        .gallery-card::before {
+            content: "";
+            position: absolute;
+            inset: 1rem -1rem -1rem 1rem;
+            border-radius: 10px;
+            background: rgba(23, 23, 23, 0.88);
+            z-index: -1;
+        }
+
+        .gallery-card:hover {
+            transform: translate(-0.18rem, -0.18rem);
+        }
+
+        .gallery-card img {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .subsection {
+            margin-top: 2.8rem;
+        }
+
+        .subsection h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subsection p {
+            margin-bottom: 1.35rem;
+            max-width: 720px;
+            color: var(--soft-ink);
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(10, 10, 10, 0.94);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 1000;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-frame {
+            position: relative;
+            width: min(92vw, 1280px);
+            height: min(88vh, 900px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 14px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .lightbox-close,
+        .lightbox-nav {
+            position: absolute;
+            border: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .lightbox-close:hover,
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.24);
+        }
+
+        .lightbox-close {
+            top: -0.75rem;
+            right: -0.75rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            font-size: 1.2rem;
+        }
+
+        .lightbox-nav {
+            top: 50%;
+            width: 56px;
+            height: 56px;
+            border-radius: 999px;
+            font-size: 1.15rem;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-prev {
+            left: -1rem;
+        }
+
+        .lightbox-next {
+            right: -1rem;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            left: 50%;
+            bottom: -2.4rem;
+            transform: translateX(-50%);
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #f5f0e6;
+            font-size: 0.88rem;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .back-home {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .back-home a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.95rem 1.35rem;
+            border-radius: 999px;
+            background: rgba(23, 23, 23, 0.92);
+            color: #f7f3eb;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .back-home a:hover {
+            background: var(--accent);
+        }
+
+        @media (max-width: 1100px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 780px) {
+            .page-shell {
+                width: min(100% - 2rem, 1380px);
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1.2rem 0.85rem;
+            }
+
+            .gallery-card::before {
+                inset: 0.6rem -0.6rem -0.6rem 0.6rem;
+            }
+
+            .floating-nav {
+                width: calc(100% - 1.2rem);
+                max-width: 340px;
+            }
+
+            .floating-nav ul {
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="floating-nav" aria-label="Primary navigation">
+        <ul>
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="#top">Gallery</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="page-shell" id="top">
+        <section class="hero">
+            <span class="hero-label">Selected Works</span>
+            <h1>A full archive of posters, branding, logos, and interface explorations.</h1>
+            <div class="section-jump">
+                <a href="#srishti">Srishti</a>
+                <a href="#events">Events</a>
+                <a href="#branding">Branding</a>
+                <a href="#cinema">Cinema</a>
+                <a href="#logo">Logo</a>
+                <a href="#random-posters">Random Posters</a>
+                <a href="#figma">Figma Designs</a>
+            </div>
+        </section>
+
+        <section class="work-section" id="srishti">
+            <div class="section-header">
+                <h2>Srishti</h2>
+                
+                <p>Festival and event visuals developed for the Srishti identity, balancing culture, energy, and experimental poster styling.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card"><img src="Srishti 1.jpg" alt="Srishti poster"></div>
+                <div class="gallery-card"><img src="Srishti 2.png" alt="Srishti visual"></div>
+                <div class="gallery-card"><img src="Srishti 3.jpg" alt="Srishti countdown poster"></div>
+                <div class="gallery-card"><img src="Srishti 4.png" alt="Face Artistry poster"></div>
+                <div class="gallery-card"><img src="Srishti 5.jpg" alt="Hackathon poster"></div>
+                <div class="gallery-card"><img src="Srishti 6.jpg" alt="Treasure Hunt poster"></div>
+                <div class="gallery-card"><img src="Srishti 7.jpg" alt="RC racing poster"></div>
+                <div class="gallery-card"><img src="Srishti 8.jpg" alt="Srishti stage visual"></div>
+                <div class="gallery-card"><img src="Srishti 9.jpg" alt="RC racing poster"></div>
+                <div class="gallery-card"><img src="Srishti 10.jpg" alt="Srishti stage visual"></div>
+            </div>
+        </section>
+
+        <section class="work-section" id="events">
+            <div class="section-header">
+                
+                <h2>Events</h2>
+                <p>Promotional pieces for college, church, and community events with a mix of cinematic composition and fast, clear communication.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card"><img src="Event 1.jpg" alt="Al.Go.Rythm poster"></div>
+                <div class="gallery-card"><img src="Event 2.jpg" alt="ChemConnect poster"></div>
+                <div class="gallery-card"><img src="Event 3.png" alt="Thirunal Vilambaram poster"></div>
+                <div class="gallery-card"><img src="Event 4.jpg" alt="Thakruthi poster"></div>
+                <div class="gallery-card"><img src="Event 5.jpg" alt="Cybersentinel poster"></div>
+                <div class="gallery-card"><img src="Event 6.jpg" alt="Placement poster"></div>
+                <div class="gallery-card"><img src="Event 7.jpg" alt="Environment Day poster"></div>
+                <div class="gallery-card"><img src="Event 8.jpg" alt="Logo Launch poster"></div>
+                <div class="gallery-card"><img src="Event 9.jpg" alt="Environment Day poster"></div>
+                <div class="gallery-card"><img src="Event 10.png" alt="Logo Launch poster"></div>
+                <div class="gallery-card"><img src="Event 11.jpg" alt="Environment Day poster"></div>
+                <div class="gallery-card"><img src="Event 12.jpg" alt="Logo Launch poster"></div>
+                <div class="gallery-card"><img src="Event 13.jpg" alt="Environment Day poster"></div>
+            </div>
+        </section>
+
+        <section class="work-section" id="branding">
+            <div class="section-header">
+                
+                <h2>Branding</h2>
+                <p>Brand-led campaign work made for restaurants, celebrations, and product communication with stronger system thinking and mood direction.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card"><img src="Branding 1.jpg" alt="Meraki Diwali branding poster"></div>
+                <div class="gallery-card"><img src="Branding 2.jpg" alt="Taksim Istanbul branding poster"></div>
+                <div class="gallery-card"><img src="Branding 3.jpg" alt="Malabar Express branding poster"></div>
+                <div class="gallery-card"><img src="Branding 4.jpg" alt="Aaravam branding poster"></div>
+            </div>
+        </section>
+
+        <section class="work-section" id="cinema">
+            <div class="section-header">
+               
+                <h2>Cinema</h2>
+                <p>Poster experiments shaped by film language, dramatic lighting, and mood-first storytelling.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card"><img src="Cinema 1.jpg" alt="Bougainvillea cinema poster"></div>
+                <div class="gallery-card"><img src="Cinema 2.jpg" alt="Conclusion cinema poster"></div>
+            </div>
+        </section>
+
+        <section class="work-section" id="logo">
+            <div class="section-header">
+               
+                <h2>Logo</h2>
+                <p>Logo explorations grouped as their own section, similar to the Figma area, with Daily Cup and Protrude arranged as separate subsections.</p>
+            </div>
+            <div class="subsection" id="daily-cup">
+                <h3>Daily Cup</h3>
+                <p>A logo and identity exploration for Daily Cup, focused on a warm, packaged coffee-and-tea brand presence.</p>
+                <div class="gallery-grid">
+                    <div class="gallery-card"><img src="DC1.jpg" alt="Daily Cup logo exploration 1"></div>
+                    <div class="gallery-card"><img src="DC2.jpg" alt="Daily Cup logo exploration 2"></div>
+                    <div class="gallery-card"><img src="DC3.jpg" alt="Daily Cup logo exploration 3"></div>
+                    <div class="gallery-card"><img src="DC4.jpg" alt="Daily Cup logo exploration 4"></div>
+                    <div class="gallery-card"><img src="DC5.jpg" alt="Daily Cup logo exploration 5"></div>
+                    <div class="gallery-card"><img src="DC6.jpg" alt="Daily Cup logo exploration 6"></div>
+                    <div class="gallery-card"><img src="DC7.jpg" alt="Daily Cup logo exploration 7"></div>
+                    <div class="gallery-card"><img src="DC8.jpg" alt="Daily Cup logo exploration 8"></div>
+                </div>
+            </div>
+
+            <div class="subsection" id="protrude">
+                <h3>Protrude</h3>
+                <p>Identity concepts for Protrude, exploring sharper geometry, flexibility, and scalable brand marks across multiple variants.</p>
+                <div class="gallery-grid">
+                    <div class="gallery-card"><img src="P1.jpg" alt="Protrude logo exploration 1"></div>
+                    <div class="gallery-card"><img src="P2.jpg" alt="Protrude logo exploration 2"></div>
+                    <div class="gallery-card"><img src="P3.jpg" alt="Protrude logo exploration 3"></div>
+                    <div class="gallery-card"><img src="P4.jpg" alt="Protrude logo exploration 4"></div>
+                    <div class="gallery-card"><img src="P5.jpg" alt="Protrude logo exploration 5"></div>
+                    <div class="gallery-card"><img src="P6.jpg" alt="Protrude logo exploration 6"></div>
+                    <div class="gallery-card"><img src="P7.jpg" alt="Protrude logo exploration 7"></div>
+                    <div class="gallery-card"><img src="P8.jpg" alt="Protrude logo exploration 8"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="work-section" id="random-posters">
+            <div class="section-header">
+                
+                <h2>Random Posters</h2>
+                <p>Independent poster studies, portraits, and one-off experiments that sit outside the larger project families.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card"><img src="Random Posters 1.jpg" alt="Abhishek poster"></div>
+                <div class="gallery-card"><img src="Random Posters 2.jpg" alt="Lost poster"></div>
+                <div class="gallery-card"><img src="Random Posters 3.jpg" alt="Flora poster"></div>
+                <div class="gallery-card"><img src="Random Posters 4.jpg" alt="Boun Natale poster"></div>
+                <div class="gallery-card"><img src="Random Posters 5.jpg" alt="Portrait poster"></div>
+                <div class="gallery-card"><img src="Random Posters 6.jpg" alt="Tea shop sign board poster"></div>
+            </div>
+        </section>
+
+        <section class="work-section" id="figma">
+            <div class="section-header">
+                <span>Figma Designs</span>
+                <h2>Figma Designs</h2>
+                <p>Three different headings for interface design work, grouped by product and presented as separate design tracks.</p>
+            </div>
+
+            <div class="subsection">
+                <h3>Money Mate</h3>
+                <p>Expense tracking flows focused on dashboard clarity, financial summaries, and lightweight mobile usability.</p>
+                <div class="gallery-grid">
+                    <div class="gallery-card"><img src="Figma 3.1.png" alt="Money Mate screen 1"></div>
+                    <div class="gallery-card"><img src="Figma 3.2.png" alt="Money Mate screen 2"></div>
+                    <div class="gallery-card"><img src="Figma 3.3.png" alt="Money Mate screen 3"></div>
+                    <div class="gallery-card"><img src="Figma 3.4.png" alt="Money Mate screen 4"></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Food Delivery Application</h3>
+                <p>Low-to-high fidelity food ordering concepts built around discovery, onboarding, and clean transactional flow.</p>
+                <div class="gallery-grid">
+                    <div class="gallery-card"><img src="Figma 2.1.png" alt="Food app screen 1"></div>
+                    <div class="gallery-card"><img src="Figma 2.2.png" alt="Food app screen 2"></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>LinkedIn UI</h3>
+                <p>A mobile reinterpretation of LinkedIn with a focus on readability, hierarchy, and a cleaner feed experience.</p>
+                <div class="gallery-grid">
+                    <div class="gallery-card"><img src="Figma 1.1.png" alt="LinkedIn UI screen 1"></div>
+                    <div class="gallery-card"><img src="Figma 1.2.png" alt="LinkedIn UI screen 2"></div>
+                    <div class="gallery-card"><img src="Figma 1.3.png" alt="LinkedIn UI screen 3"></div>
+                    <div class="gallery-card"><img src="Figma 1.5.png" alt="LinkedIn UI screen 4"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="back-home">
+            <a href="index.html#gallery">
+                <i class="fas fa-arrow-left"></i>
+                Back To Home Gallery
+            </a>
+        </div>
+    </main>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <div class="lightbox-frame">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Close full screen view">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <img class="lightbox-image" id="lightbox-image" src="" alt="">
+            <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        const cards = Array.from(document.querySelectorAll(".gallery-card"));
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImage = document.getElementById("lightbox-image");
+        const lightboxCaption = document.getElementById("lightbox-caption");
+        const closeButton = document.getElementById("lightbox-close");
+        const prevButton = document.getElementById("lightbox-prev");
+        const nextButton = document.getElementById("lightbox-next");
+        const images = cards.map((card) => card.querySelector("img")).filter(Boolean);
+        let currentIndex = 0;
+
+        function renderLightbox(index) {
+            const image = images[index];
+            if (!image) {
+                return;
+            }
+
+            currentIndex = index;
+            lightboxImage.src = image.src;
+            lightboxImage.alt = image.alt;
+            lightboxCaption.textContent = image.alt || `Image ${index + 1}`;
+        }
+
+        function openLightbox(index) {
+            renderLightbox(index);
+            lightbox.classList.add("active");
+            lightbox.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove("active");
+            lightbox.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+
+        function showNext() {
+            renderLightbox((currentIndex + 1) % images.length);
+        }
+
+        function showPrevious() {
+            renderLightbox((currentIndex - 1 + images.length) % images.length);
+        }
+
+        cards.forEach((card, index) => {
+            card.addEventListener("click", () => openLightbox(index));
+        });
+
+        closeButton.addEventListener("click", closeLightbox);
+        nextButton.addEventListener("click", showNext);
+        prevButton.addEventListener("click", showPrevious);
+
+        lightbox.addEventListener("click", (event) => {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (!lightbox.classList.contains("active")) {
+                return;
+            }
+
+            if (event.key === "Escape") {
+                closeLightbox();
+            }
+
+            if (event.key === "ArrowRight") {
+                showNext();
+            }
+
+            if (event.key === "ArrowLeft") {
+                showPrevious();
+            }
+        });
+    </script>
+</body>
+</html>

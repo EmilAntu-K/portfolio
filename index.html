@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emil Antu K | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --paper: #f5f0e6;
+            --paper-deep: #ede6d8;
+            --ink: #171717;
+            --soft-ink: #4f4a43;
+            --accent: #c85757;
+            --glass: rgba(255, 255, 255, 0.26);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow: 0 18px 45px rgba(68, 48, 28, 0.14);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: var(--ink);
+            background:
+                linear-gradient(180deg, #f7f3eb 0%, #efe7db 100%);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body.splash-active {
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 12% 14%, rgba(200, 87, 87, 0.12), transparent 22%),
+                radial-gradient(circle at 88% 22%, rgba(255, 255, 255, 0.45), transparent 24%),
+                radial-gradient(circle at 80% 72%, rgba(104, 146, 210, 0.1), transparent 18%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+       .splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 50% 20%, rgba(200, 87, 87, 0.24), transparent 32%),
+                linear-gradient(180deg, #111 0%, #090909 100%);
+            transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease;
+        }
+
+        .splash-screen.is-leaving {
+            transform: translateY(-100%);
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .splash-title {
+            font-size: clamp(3.6rem, 10vw, 8rem);
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #f8f3ea;
+            opacity: 0;
+            transform: translateY(24px);
+            animation: splash-text-in 0.9s ease forwards 0.24s;
+        }
+
+        @keyframes splash-text-in {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .floating-nav {
+            position: fixed;
+            top: 1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            padding: 0.45rem 0.65rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(76, 55, 33, 0.12);
+        }
+
+        .floating-nav ul {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            list-style: none;
+        }
+
+        .floating-nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.45rem 0.85rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: rgba(23, 23, 23, 0.8);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .floating-nav a:hover {
+            background: rgba(255, 255, 255, 0.42);
+            color: var(--ink);
+        }
+
+        section {
+            padding: 7rem 0 4rem;
+        }
+
+        #gallery,
+        #contact {
+            width: min(100% - 6rem, 1360px);
+            margin: 0 auto;
+        }
+
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0;
+        }
+
+        .hero-frame {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            border-radius: 0;
+            overflow: hidden;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)),
+                url("bg.jpg") center center / cover no-repeat;
+        }
+
+        .hero-frame::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(20, 20, 20, 0.1)),
+                radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.38), transparent 18%),
+                radial-gradient(circle at 92% 70%, rgba(20, 109, 194, 0.14), transparent 15%);
+            pointer-events: none;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .section-header span {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.32);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--soft-ink);
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1;
+            color: var(--ink);
+        }
+
+        .section-header p {
+            max-width: 580px;
+            margin: 0.9rem auto 0;
+            color: var(--soft-ink);
+            font-size: 0.98rem;
+        }
+
+        .gallery-scroll {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1.6rem 1.25rem;
+            align-items: start;
+        }
+
+        #gallery .section-header {
+            text-align: left;
+            margin-bottom: 3rem;
+        }
+
+        #gallery .section-header p {
+            margin-left: 0;
+        }
+
+        .gallery-tile {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #ffffff;
+            border: 1px solid rgba(23, 23, 23, 0.08);
+            aspect-ratio: 4 / 5;
+            isolation: isolate;
+            transition: transform 0.28s ease;
+            cursor: pointer;
+        }
+
+        .gallery-tile::before {
+            content: "";
+            position: absolute;
+            inset: 1rem -1rem -1rem 1rem;
+            border-radius: 10px;
+            background: rgba(23, 23, 23, 0.88);
+            z-index: -1;
+            transition: transform 0.28s ease;
+        }
+
+        .gallery-tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.45s ease;
+        }
+
+        .gallery-tile:hover {
+            transform: translate(-0.18rem, -0.18rem);
+        }
+
+        .gallery-tile:hover::before {
+            transform: translate(0.28rem, 0.28rem);
+        }
+
+        .gallery-tile:hover img {
+            transform: scale(1.03);
+        }
+
+        .gallery-cta {
+            margin-top: 2.4rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .gallery-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.95rem 1.35rem;
+            border-radius: 999px;
+            background: rgba(23, 23, 23, 0.92);
+            color: #f7f3eb;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            transition: transform 0.25s ease, background-color 0.25s ease;
+        }
+
+        .gallery-button:hover {
+            transform: translateY(-2px);
+            background: var(--accent);
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(10, 10, 10, 0.94);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 1000;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-frame {
+            position: relative;
+            width: min(92vw, 1280px);
+            height: min(88vh, 900px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 14px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .lightbox-close,
+        .lightbox-nav {
+            position: absolute;
+            border: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .lightbox-close:hover,
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.24);
+        }
+
+        .lightbox-close {
+            top: -0.75rem;
+            right: -0.75rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            font-size: 1.2rem;
+        }
+
+        .lightbox-nav {
+            top: 50%;
+            width: 56px;
+            height: 56px;
+            border-radius: 999px;
+            font-size: 1.15rem;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-prev {
+            left: -1rem;
+        }
+
+        .lightbox-next {
+            right: -1rem;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            left: 50%;
+            bottom: -2.4rem;
+            transform: translateX(-50%);
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #f5f0e6;
+            font-size: 0.88rem;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        #contact {
+            padding-bottom: 6rem;
+            position: relative;
+        }
+
+        #contact::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(245, 240, 230, 0.78), rgba(245, 240, 230, 0.78)),
+                url("Banner.jpg") center center / cover no-repeat;
+            border-radius: 36px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+            z-index: -1;
+        }
+
+        .contact-card {
+            display: grid;
+            grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
+            gap: 1.4rem;
+            padding: 1.6rem;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.52);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 22px 54px rgba(73, 52, 30, 0.14);
+        }
+
+        .contact-panel,
+        .form-panel {
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.26);
+            border: 1px solid rgba(255, 255, 255, 0.52);
+            padding: 1.45rem;
+        }
+
+        .contact-panel h3,
+        .form-panel h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.6rem;
+            color: var(--ink);
+        }
+
+        .contact-panel p,
+        .form-panel p {
+            color: var(--soft-ink);
+            font-size: 0.94rem;
+        }
+
+        .contact-list {
+            display: grid;
+            gap: 0.85rem;
+            margin: 1.3rem 0 1.55rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            color: var(--ink);
+            font-size: 0.94rem;
+        }
+
+        .contact-item i {
+            width: 18px;
+            margin-top: 0.18rem;
+            color: var(--accent);
+        }
+
+        .contact-item a {
+            color: inherit;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent);
+        }
+
+        .resume-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-bottom: 1.4rem;
+            padding: 0.82rem 1.1rem;
+            border-radius: 12px;
+            background: rgba(23, 23, 23, 0.9);
+            color: #f8f4ef;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: transform 0.25s ease, background-color 0.25s ease;
+        }
+
+        .resume-button:hover {
+            transform: translateY(-2px);
+            background: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .social-links a {
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: var(--ink);
+            transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-2px);
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .form-frame {
+            margin-top: 1rem;
+            overflow: hidden;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            background: rgba(255, 255, 255, 0.5);
+            min-height: 500px;
+        }
+
+        .form-frame iframe {
+            width: 100%;
+            height: 500px;
+            border: 0;
+            background: #fff;
+        }
+
+        .form-note {
+            margin-top: 0.85rem;
+            font-size: 0.82rem;
+            color: rgba(79, 74, 67, 0.86);
+        }
+
+        footer {
+            padding: 0 0 2rem;
+            text-align: center;
+            color: rgba(79, 74, 67, 0.9);
+            font-size: 0.84rem;
+        }
+
+        @media (max-width: 980px) {
+            .gallery-scroll {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .contact-card {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-frame {
+                min-height: 100vh;
+            }
+
+            #gallery,
+            #contact {
+                width: min(100% - 3rem, 1360px);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .floating-nav {
+                width: calc(100% - 1.2rem);
+                max-width: 330px;
+                padding: 0.4rem 0.45rem;
+            }
+
+            .floating-nav ul {
+                justify-content: space-between;
+                gap: 0.15rem;
+            }
+
+            .floating-nav a {
+                padding: 0.42rem 0.55rem;
+                font-size: 0.72rem;
+            }
+
+            section {
+                padding: 6.3rem 0 3.2rem;
+            }
+
+            .hero-frame {
+                min-height: 100vh;
+            }
+
+            .gallery-scroll {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem 0.85rem;
+            }
+
+            #gallery,
+            #contact {
+                width: min(100% - 1.4rem, 1360px);
+            }
+
+            .gallery-tile::before {
+                inset: 0.6rem -0.6rem -0.6rem 0.6rem;
+            }
+
+            .contact-card,
+            .contact-panel,
+            .form-panel {
+                padding: 1rem;
+            }
+
+            .form-frame,
+            .form-frame iframe {
+                min-height: 440px;
+                height: 440px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-screen" id="splash-screen" aria-hidden="true">
+        <div class="splash-title">Holaaa</div>
+    </div>
+
+    <nav class="floating-nav" aria-label="Primary navigation">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="page-shell">
+        <section id="home">
+            <div class="hero-frame"></div>
+        </section>
+
+        <section id="gallery">
+            <div class="section-header">
+                <span>Gallery</span>
+                <h2>Selected Works</h2>
+                <p>A scrolling visual wall of posters, branding, interface work, and creative experiments.</p>
+            </div>
+
+            <div class="gallery-scroll">
+                <div class="gallery-tile">
+                    <img src="Srishti 1.jpg" alt="Poster design work">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Srishti 2.png" alt="Creative branding visual">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Srishti 4.png" alt="Experimental layout artwork">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Branding 2.jpg" alt="UI design screen">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Branding 1.jpg" alt="App design preview">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Branding 3.jpg" alt="Design exploration image">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Event 3.png" alt="Brand identity visual">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Event 5.jpg" alt="Mobile design concept">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Random Posters 1.jpg" alt="Creative poster or design image">
+                </div>
+                <div class="gallery-tile">
+                    <img src="Random Posters 2.jpg" alt="UI flow design">
+                </div>
+            </div>
+
+            <div class="gallery-cta">
+                <a class="gallery-button" href="gallery.html">
+                    View Full Gallery
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-header">
+                <span>Contact</span>
+                <h2>Contact Details</h2>
+                <p>Reach out for collaborations, freelance opportunities, or creative conversations.</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-panel">
+                    <h3>Let&apos;s Connect</h3>
+                    <p>You can contact me directly through email, phone, or social platforms. My resume is also available below.</p>
+
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:emilantu007@gmail.com">emilantu007@gmail.com</a>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+918157015816">+91 81570 15816</a>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fas fa-location-dot"></i>
+                            <span>Thrissur, Kerala, India</span>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fab fa-instagram"></i>
+                            <a href="https://www.instagram.com/whitegrid_studio?utm_source=ig_web_button_share_sheet&igsh=eGQxZzE4aWE4cmN4" target="_blank" rel="noreferrer">Instagram / whitegrid_studio</a>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="https://www.linkedin.com/in/emil-antu-k-763479303/?originalSubdomain=in" target="_blank" rel="noreferrer">LinkedIn / Emil Antu K</a>
+                        </div>
+                    </div>
+
+                    <a class="resume-button" href="Resume.pdf.pdf" download>
+                        <i class="fas fa-download"></i>
+                        Download Resume
+                    </a>
+
+                    <div class="social-links">
+                        <a href="mailto:emilantu007@gmail.com" aria-label="Email Emil">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.instagram.com/whitegrid_studio?utm_source=ig_web_button_share_sheet&igsh=eGQxZzE4aWE4cmN4" target="_blank" rel="noreferrer" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/emil-antu-k-763479303/?originalSubdomain=in" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-panel">
+                    <h3>Contact Form</h3>
+                    
+
+                    <div class="form-frame">
+                        <iframe
+                            title="Contact form"
+                            src="https://docs.google.com/forms/d/e/1FAIpQLSdDFFFNs63awjM8726C6HxV_TcfGas1rxpMkdSV0OGckjN0YA/viewform?usp=sharing&ouid=117153072050519922259"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Emil Antu K. All rights reserved.</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <div class="lightbox-frame">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Close full screen view">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <img class="lightbox-image" id="lightbox-image" src="" alt="">
+            <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        document.body.classList.add("splash-active");
+        const galleryTiles = Array.from(document.querySelectorAll(".gallery-tile"));
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImage = document.getElementById("lightbox-image");
+        const lightboxCaption = document.getElementById("lightbox-caption");
+        const closeButton = document.getElementById("lightbox-close");
+        const prevButton = document.getElementById("lightbox-prev");
+        const nextButton = document.getElementById("lightbox-next");
+        const galleryImages = galleryTiles.map((tile) => tile.querySelector("img")).filter(Boolean);
+        let currentIndex = 0;
+
+        function renderLightbox(index) {
+            const image = galleryImages[index];
+            if (!image) {
+                return;
+            }
+
+            currentIndex = index;
+            lightboxImage.src = image.src;
+            lightboxImage.alt = image.alt;
+            lightboxCaption.textContent = image.alt || `Image ${index + 1}`;
+        }
+
+        function openLightbox(index) {
+            renderLightbox(index);
+            lightbox.classList.add("active");
+            lightbox.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove("active");
+            lightbox.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+
+        function showNext() {
+            renderLightbox((currentIndex + 1) % galleryImages.length);
+        }
+
+        function showPrevious() {
+            renderLightbox((currentIndex - 1 + galleryImages.length) % galleryImages.length);
+        }
+
+        galleryTiles.forEach((tile, index) => {
+            tile.addEventListener("click", () => openLightbox(index));
+        });
+
+        closeButton.addEventListener("click", closeLightbox);
+        nextButton.addEventListener("click", showNext);
+        prevButton.addEventListener("click", showPrevious);
+
+        lightbox.addEventListener("click", (event) => {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        window.addEventListener("load", () => {
+            const splashScreen = document.getElementById("splash-screen");
+
+            window.setTimeout(() => {
+                splashScreen.classList.add("is-leaving");
+                document.body.classList.remove("splash-active");
+            }, 1450);
+
+            window.setTimeout(() => {
+                splashScreen.style.display = "none";
+            }, 2850);
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (!lightbox.classList.contains("active")) {
+                return;
+            }
+
+            if (event.key === "Escape") {
+                closeLightbox();
+            }
+
+            if (event.key === "ArrowRight") {
+                showNext();
+            }
+
+            if (event.key === "ArrowLeft") {
+                showPrevious();
+            }
+        });
+    </script>
+</body>
+</html>
