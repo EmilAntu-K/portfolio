@@ -83,7 +83,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.45rem 0.85rem;
+            padding: 0.35rem 0.65rem;
             border-radius: 10px;
             font-size: 0.82rem;
             font-weight: 600;
@@ -388,7 +388,8 @@
 
         @media (max-width: 520px) {
             .gallery-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem 0.75rem;
             }
 
             .hero {
@@ -461,6 +462,7 @@
                 <div class="gallery-card"><img src="Event 11.jpg" alt="Environment Day poster"></div>
                 <div class="gallery-card"><img src="Event 12.jpg" alt="Logo Launch poster"></div>
                 <div class="gallery-card"><img src="Event 13.jpg" alt="Environment Day poster"></div>
+                <div class="gallery-card"><img src="Event 14.jpg" alt="Environment Day poster"></div>
             </div>
         </section>
 
@@ -494,7 +496,6 @@
             <div class="section-header">
                
                 <h2>Logo</h2>
-                <p>Logo explorations grouped as their own section, similar to the Figma area, with Daily Cup and Protrude arranged as separate subsections.</p>
             </div>
             <div class="subsection" id="daily-cup">
                 <h3>Daily Cup</h3>
@@ -545,10 +546,9 @@
 
         <section class="work-section" id="figma">
             <div class="section-header">
-                <span>Figma Designs</span>
+          
                 <h2>Figma Designs</h2>
-                <p>Three different headings for interface design work, grouped by product and presented as separate design tracks.</p>
-            </div>
+                </div>
 
             <div class="subsection">
                 <h3>Money Mate</h3>
