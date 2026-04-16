@@ -411,8 +411,10 @@
 
         .contact-card {
             display: grid;
-            grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
+            grid-template-columns: 1fr;
             gap: 1.4rem;
+            width: min(100% - 4rem, 820px);
+            margin: 0 auto;
             padding: 1.6rem;
             border-radius: 30px;
             background: rgba(255, 255, 255, 0.22);
@@ -444,6 +446,7 @@
 
         .contact-list {
             display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 0.85rem;
             margin: 1.3rem 0 1.55rem;
         }
@@ -549,6 +552,11 @@
 
             .contact-card {
                 grid-template-columns: 1fr;
+                width: auto;
+            }
+
+            .contact-list {
+                grid-template-columns: 1fr;
             }
 
             .hero-frame {
@@ -584,6 +592,9 @@
 
             .hero-frame {
                 min-height: 100vh;
+                background:
+                    linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)),
+                    url("mobile view.jpg") center center / cover no-repeat;
             }
 
             .gallery-scroll {
@@ -601,15 +612,8 @@
             }
 
             .contact-card,
-            .contact-panel,
-            .form-panel {
+            .contact-panel {
                 padding: 1rem;
-            }
-
-            .form-frame,
-            .form-frame iframe {
-                min-height: 440px;
-                height: 440px;
             }
         }
     </style>
@@ -635,7 +639,7 @@
         <section id="gallery">
             <div class="section-header">
                 <span>Gallery</span>
-                <h2>Selected Works</h2>
+                <h2>Work Gallery</h2>
                 <p>A scrolling visual wall of posters, branding, interface work, and creative experiments.</p>
             </div>
 
@@ -719,35 +723,10 @@
                         </div>
                     </div>
 
-                    <a class="resume-button" href="Resume.pdf.pdf" download>
-                        <i class="fas fa-download"></i>
-                        Download Resume
+                    <a class="gallery-button" href="https://docs.google.com/forms/d/e/1FAIpQLSdDFFFNs63awjM8726C6HxV_TcfGas1rxpMkdSV0OGckjN0YA/viewform?usp=sharing&ouid=117153072050519922259" target="_blank" rel="noopener">
+                        GO TO FORMS
+                        <i class="fas fa-arrow-right"></i>
                     </a>
-
-                    <div class="social-links">
-                        <a href="mailto:emilantu007@gmail.com" aria-label="Email Emil">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        <a href="https://www.instagram.com/whitegrid_studio?utm_source=ig_web_button_share_sheet&igsh=eGQxZzE4aWE4cmN4" target="_blank" rel="noreferrer" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/emil-antu-k-763479303/?originalSubdomain=in" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="form-panel">
-                    <h3>Contact Form</h3>
-                    
-
-                    <div class="form-frame">
-                        <iframe
-                            title="Contact form"
-                            src="https://docs.google.com/forms/d/e/1FAIpQLSdDFFFNs63awjM8726C6HxV_TcfGas1rxpMkdSV0OGckjN0YA/viewform?usp=sharing&ouid=117153072050519922259"
-                            loading="lazy">
-                        </iframe>
-                    </div>
                 </div>
             </div>
         </section>
